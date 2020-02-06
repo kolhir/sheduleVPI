@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- <div class="page-content--bgf7"> -->
+    <div class="row mt-5">
+        <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        Ваши расписания
+                    </div>
+                    <div class="card-body "  style="overflow-x: scroll;">
+                        <section class = "timetable-section">
+                            <div class="col-12" >
+                                {% if schedules %}
+                                    <table class = "table table-bordered">
+                                        <thead>
+                                            <th>Опубликовано</th>
+                                            <th>Название</th>
+                                            <th>Семестр</th>
+                                            <th>Подгуруппа</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                             {% for group in schedules %}
+                                            <tr class="{% if group.added_to_bot %}table-success{% endif %} text-center">
+                                                <td> {% if group.added_to_bot %}<i class="far fa-check-square"></i>{% endif %}</td>
+                                                <td>{{group.group_info.abbr}}-{{group.group_info.course}}{{group.group_info.code}}</td>
+                                                <td>{{group.group_info.semester}}</td>
+                                                <td>{{group.subgroup}}</td>
+                                                <td><a href="/edit-schedule/{{group.id}}">Редактировать</a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+
+                                    </table>
+
+                                {% else %}
+                                    У вас еще нет расписаний.
+                                {% endif %}
+                                <a class="btn  btn-success pull-right"  href="/add-new-schedules">Добавить новое</a>
+                            </div>
+                      </section>
+                    </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

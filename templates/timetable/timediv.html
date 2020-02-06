@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{#<!-- {% if user.is_authenticated %}#}
+{#  Hi {{ user.username }}!#}
+{#  <p><a href="{% url 'logout' %}">logout</a></p>#}
+{#{% else %}#}
+{#  <p>You are not logged in</p>#}
+{#  <a href="{% url 'login' %}">login</a>#}
+{#{% endif %}#}
+{# -->#}
+{#    #}
+
+<div class="row mt-3">
+    <div class="col-md-3">
+       <table class="table">
+        <thead>
+          <tr>
+                  <th>Группа: {{group.group_info.abbr}}-{{group.group_info.course}}{{group.group_info.code}}</th>
+                  <th>Семестр: {{group.group_info.semester}}</th>
+                  <th>Подгруппа: {{group.subgroup}}</th>
+          </tr>
+      </thead>
+      </table>
+    </div>
+    <div class="col-md-7">
+    </div>
+    <div class="col-md-2">
+        <button id = "modal_reset_all" type="button" class="btn btn-danger m-2"  data-dismiss="modal">Очистить расписание</button>
+    </div>
+</div>
+
+
+<section class = "timetable-section" >
+<div class = "container-fluid" >
+
+  <div class="flextable d-flex flex-row m-2 " style="overflow-x: scroll;">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <div class="numh">
+
+        </div>
+        <div class="weekcell">
+         <h4>П<br>е<br>р<br>в<br>а<br>я<br><br> н<br>е<br>д<br>е<br>л<br>я</h4>
+        </div>
+        <div class="numh">
+
+        </div>
+        <div class="weekcell">
+          <h4>В<br>т<br>о<br>р<br>а<br>я<br><br> н<br>е<br>д<br>е<br>л<br>я</h4>
+        </div>
+      </div>
+      <div class="d-flex flex-column ">
+        <div class="numh"> </div>
+        <div class="numcell "> 1 </div>
+        <div class="numcell"> 2 </div>
+        <div class="numcell"> 3</div>
+        <div class="numcell"> 4 </div>
+        <div class="numcell"> 5 </div>
+        <div class="numcell"> 6 </div>
+
+        <div class="numh"> </div>
+        <div class="numcell"> 1 </div>
+        <div class="numcell"> 2 </div>
+        <div class="numcell"> 3</div>
+        <div class="numcell"> 4 </div>
+        <div class="numcell"> 5 </div>
+        <div class="numcell"> 6 </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-row">
+        <div class="cellh">Понедельник</div>
+        <div class="cellh">Вторник</div>
+        <div class="cellh">Среда</div>
+        <div class="cellh">Четверг</div>
+        <div class="cellh">Пятница</div>
+        <div class="cellh">Суббота</div>
+      </div>
+      <div  class="first d-flex flex-row">
+
+        <div class="mon d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+        <div class="tues d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+        <div class="wen d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+        <div class="thurs d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+        <div class="fri d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+        <div class="sat d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+
+      </div>
+
+
+      <div class="d-flex flex-row">
+        <div class="cellh">Понедельник</div>
+        <div class="cellh">Вторник</div>
+        <div class="cellh">Среда</div>
+        <div class="cellh">Четверг</div>
+        <div class="cellh">Пятница</div>
+        <div class="cellh">Суббота</div>
+      </div>
+
+
+
+      <div  class="second d-flex flex-row">
+        <div class="mon d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+        <div class="tues d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+        <div class="wen d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+        <div class="thurs d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+        <div class="fri d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+        <div class="sat d-flex flex-column">
+          <div class="l1 cell-lesson d-flex flex-column "></div>
+          <div class="l2 cell-lesson d-flex flex-column "></div>
+          <div class="l3 cell-lesson d-flex flex-column "></div>
+          <div class="l4 cell-lesson d-flex flex-column "></div>
+          <div class="l5 cell-lesson d-flex flex-column "></div>
+          <div class="l6 cell-lesson d-flex flex-column "></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-3">
+    <a href="/timetable/done/{{group.id}}" type="button" class="btn btn-warning">Расписание готово, отправить</a>
+    </div>
+</div>
+</section>
+</div>
+<!-- Модальное окно -->
+<div class="modal fade" id="addLesson" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+      		<div class="modal-header">
+        		<h5 class="modal-title" id="exampleModalLabel">Добавление пары</h5>
+        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          			<span aria-hidden="true">&times;</span>
+        		</button>
+      		</div>
+      		<div class="modal-body">
+            <div class="week_modal form-group">
+
+            </div>
+            <div class="day_modal form-group">
+
+            </div>
+            <form>
+              <div class="form-group">
+                <label for="name-lesson">Название предмета</label>
+                <select id = "name" class="name-lesson form-control" name="name-lesson">
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="teach-lesson">Преподаватель</label>
+                <select id="teach" class = "form-control" name="teach-lesson">
+
+                </select>
+              </div>
+              <div class="row">
+                <div class="col-3 form-group">
+                  <label for="korpus-lesson">Корпус</label>
+                  <select id = "korpus" class="form-control" name="korpus-lesson">
+
+                  </select>
+                </div>
+                <div class="col-3 form-group">
+                  <label for="room-lesson">Кабинет</label>
+                  <select id = "room" class="form-control" name="room-lesson">
+
+                  </select>
+                </div>
+                <div class="col-6 form-group">
+                  <label for="type-lesson">Тип</label>
+                  <select id = "type" class="form-control" name="type-lesson">
+
+                  </select>
+                </div>
+              </div>
+              <div id = "modal_error" class="form-group">
+
+              </div>
+            </form>
+      		</div>
+             <a href="/edit_sub_for_group/{{group.id}}/">Редактировать список предметов</a>
+      		<div class="modal-footer">
+                <button id = "modal_delete" type="button" class="btn btn-danger mr-auto"  data-dismiss="modal">Удалить пару</button>
+                <button id = "modal_save" type="button" class="btn btn-info">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+
+
+      		</div>
+    	</div>
+  	</div>
+</div>
+<script type="text/javascript">
+  var json_d = "{{tt_json}}"
+  var lesson_list = {{ lessons|safe }}
+  var korpus_list = {{ korpus|safe }}
+  var group_id = {{group.id}}
+
+</script>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- <div class="page-content--bgf7"> -->
+  <section class = "timetable-section">
+	<div class="row m-3 p-3">
+		<div class="col-4"></div>
+		<div class="col-4">
+			<form action="post/" method="post" id = "profile_data" class="">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="name-group">Выберете группу</label>
+					<select id = "group" class="form-control" name="name-group">
+						{% for g in groups %}
+							<option value="{{g.abbr}}">{{g.abbr}} - {{g.specialty}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="name-kurs">Выберете курс</label>
+					<select id = "kurs" class="form-control" name="name-kurs">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="name-semester">Выберете семестр</label>
+					<select id = "semester" class="form-control" name="name-semester">
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+				</div>
+			
+				<div class="form-group">
+					<label for="subgroup">Выберете Подгруппу (оставьте 0 если группа не делится на подгруппы)</label>
+					<select id = "subgroup" class="form-control" name="name-subgroup">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						
+
+					</select>
+				</div>
+				<input form="profile_data" id = "123" type="submit" class="btn btn-info" value="Отправить">
+			</form>
+		</div>
+		<div class="col-4"></div>
+	</div>
+	
+	
+
+
+  </section>
+</div>
+{% endblock %}
