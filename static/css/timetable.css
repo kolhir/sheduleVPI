@@ -60,7 +60,16 @@ div .cell-style{
 }
 
 div .cell-lesson-room{
+  padding-top: 0;
+  padding-bottom: 0;
   border-right: 1px solid white;
   border-color: #454d55;
 
+}
+
+div .cell-lesson-type{
+    padding-top: 0;
+    padding-bottom: 0;
+    border-right: 1px solid white;
+  border-color: #454d55;
 }

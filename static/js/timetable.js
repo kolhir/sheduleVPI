@@ -278,10 +278,17 @@ class Lesson {
   }
 
   fill_lesson (element) {
-    const lesson_temp = `<div class="cell-style cell-lesson-name">${this.name}</div>
-    <div class="cell-style cell-lesson-teach">${this.teach}</div>
-    <div class="d-flex flex-row">  <div class="cell-lesson-room col-6">${this.korpus}-${this.room}</div>   
-     <div class="cell-lesson-type col-6">${this.type}</div></div>`
+    const lesson_temp =
+        `
+        <div class="d-flex flex-column">  
+            <div class="cell-style cell-lesson-name">${this.name}</div>
+            <div class="cell-style cell-lesson-teach">${this.teach}</div>
+        </div>
+        <div class="d-flex  flex-row" >  
+            <div class="cell-lesson-room col-6">${this.korpus}-${this.room}</div>   
+            <div class="cell-lesson-type col-6">${this.type}</div>
+        </div>
+        `
     return lesson_temp
   }
 }

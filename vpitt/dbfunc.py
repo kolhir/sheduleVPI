@@ -359,7 +359,7 @@ def set_timetable_to_db(id):
 	set_json_for_second_group(group)
 	timetable_dict = literal_eval(group.tt_json)
 	try:
-		f = open(f"/home/shedule/ttfront/data/backup/{group.id}#{group.group_info.abbr}-{group.group_info.course}{group.group_info.code} sem={group.group_info.semester} subg: {group.subgroup}",'+w')
+		f = open(f"/home/shedule/sheduleVPI/data/backup/{group.id}#{group.group_info.abbr}-{group.group_info.course}{group.group_info.code} sem={group.group_info.semester} subg: {group.subgroup}",'+w')
 		f.write(group.tt_json)
 		f.close()
 	except  Exception as e:
