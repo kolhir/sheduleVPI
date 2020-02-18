@@ -63,7 +63,7 @@ $(document).ready(function() {
     //    }
    });
 class TimeTableInfo{
-  
+
 }
 
 var data = {};
@@ -280,7 +280,8 @@ class Lesson {
   fill_lesson (element) {
     const lesson_temp = `<div class="cell-style cell-lesson-name">${this.name}</div>
     <div class="cell-style cell-lesson-teach">${this.teach}</div>
-    <div class="d-flex flex-row">  <div class="cell-lesson-room col-6">${this.korpus}-${this.room}</div>   <div class="cell-lesson-type col-6">${this.type}</div>   </div>`
+    <div class="d-flex flex-row">  <div class="cell-lesson-room col-6">${this.korpus}-${this.room}</div>   
+     <div class="cell-lesson-type col-6">${this.type}</div></div>`
     return lesson_temp
   }
 }
@@ -306,7 +307,7 @@ class Week {
       this.thurs=  new Day()
       this.fri =  new Day()
       this.sat =  new Day()
-  } 
+  }
 }
 
 class TimeTable {
@@ -352,7 +353,7 @@ console.log(json_d)
 var new_json = json_d.split('&#39;').join('\"');
 console.log(new_json)
 
-if (new_json) 
+if (new_json)
 {
   tt = $.evalJSON(new_json)
 }
@@ -383,9 +384,9 @@ for (var key in tt) {
         s2 = targetLesson.fill_lesson()
         $(s).append(s2)
         }
-      
+
       // console.log("=======", timetable)
     }
   }
-}  
+}
 console.log("=======", timetable)

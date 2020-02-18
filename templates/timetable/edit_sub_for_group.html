@@ -1,164 +1,238 @@
-    {% extends 'base.html' %}
-    {% block title %}Home{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 
-    {% block content %}
-        <!-- <div class="page-content--bgf7"> -->
-        <section class="timetable-section">
-            <div class="row m-3 p-3">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <div likes="42" id="app" data-app>
-                        <v-card class = "mb-4">
-                            <v-card-title>Группа {{group.group_info}}</v-card-title>
-                             <v-divider></v-divider>
+{% block content %}
+    <!-- <div class="page-content--bgf7"> -->
+    <section class="timetable-section">
 
+        <div class="row m-3 p-3">
+
+            <div class="col col-xl-3 col-lg-2 col-md-2"></div>
+            <div class="col col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
+                <div likes="42" id="app" data-app>
+                    <v-app>
+                        <v-card class="mb-4">
+
+                            <v-card-title>Группа {{ group.group_info }}
+                                <v-progress-circular
+                                        v-if="saving_changes"
+                                        class="ml-4"
+                                        :size="30"
+                                        color="primary"
+                                        indeterminate
+                                ></v-progress-circular>
+                            </v-card-title>
+                            <v-card-subtitle>
+                                 Здесь вы можете откредактировать список предметов на этот семестр.
+                                Если все верно, перейдите к <a href="/edit-schedule/{{group.id}}">заполнению расписания</a>
+                                </v-card-subtitle>
+                            <v-divider></v-divider>
+                            <v-list>
                             <v-list-item
                                     v-for="(item, index) in info"
                                     :key="item.lesson.name"
                             >
 
-                            <v-list-item-content>
-                                <v-list-item-title v-text="item.lesson.name"></v-list-item-title>
-                            </v-list-item-content>
+                                <v-list-item-content>
+                                    <v-list-tile-sub-title v-text="item.lesson.name"></v-list-tile-sub-title>
+                                </v-list-item-content>
 
-                            <v-list-item-action>
-                                <v-btn @click="del_item(index)" icon>
-                                    <v-icon color="grey lighten-1">mdi-close</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
-
+                                <v-list-item-action>
+                                    <v-btn @click="del_item(index)" icon>
+                                        <v-icon color="grey lighten-1">mdi-close</v-icon>
+                                    </v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
+                            </v-list>
                         </v-card>
-                        <v-autocomplete
-                                v-model="model"
-                                :items="items"
-                                :loading="isLoading"
-                                :search-input.sync="search"
-                                color="white"
-                                hide-no-data
-                                hide-selected
-                                item-text="name"
-                                item-value="name"
-                                placeholder="Добавить новый предмет"
-                                return-object
-                        ></v-autocomplete>
-                    <v-btn @click="save_item">
-                       Сохранить
-                    </v-btn>
-                    </div>
 
+                        <v-dialog v-model="dialog" width="500">
+                            <v-card>
+                                <v-card-title class="headline grey lighten-2" primary-title>
+                                    Добавление предмета
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-autocomplete
+                                            v-model="model"
+                                            :items="items"
+                                            :loading="isLoading"
+                                            :search-input.sync="search"
+                                            color="white"
+                                            hide-details
+                                            hide-selected
+                                            hide-no-data
+                                            item-text="name"
+                                            item-value="name"
+                                            placeholder="Начните набирать название"
+                                            return-object
+                                    ></v-autocomplete>
+
+                                     <p class="mt-4">Если нужного предмета в списке нет, обратитесь к  <a href="https://vk.com/vlzvpi">администраторам сообщества</a></p>
+                                </v-card-text>
+
+                                <v-divider></v-divider>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="primary" text @click="add_sub">
+                                        Добавить
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-row
+                                    justify="end">
+                                    <v-btn class="m-2" @click="dialog=true">
+                                        Добавить предмет
+                                    </v-btn>
+
+                                    <v-btn class="m-2" color="primary" @click="save_item">
+                                        Сохранить
+                                    </v-btn>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                        <v-snackbar
+                                v-model="snackbar"
+                                :timeout="2000"
+                                right
+                                outlined
+                                color="#4caf50"
+                        >
+                            [[ snackbar_text ]]
+                        </v-snackbar>
+                        <v-app>
 
                 </div>
-                <div class="col-4"></div>
+
+
             </div>
+            <div class="col-4"></div>
+        </div>
 
 
-        </section>
+    </section>
 
-    {% endblock %}
-    {% block script %}
-        <script>
+{% endblock %}
+{% block script %}
+    <script>
 
-            new window.Vue({
-                el: '#app',
-                vuetify: new Vuetify(),
-                delimiters: ['[[', ']]'],
-                components: {
-                    {#'app-world': window.httpVueLoader('/js/components/AppWorld.vue')#}
+        new window.Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            delimiters: ['[[', ']]'],
+            components: {
+                {#'app-world': window.httpVueLoader('/js/components/AppWorld.vue')#}
+            },
+            props: ['likes'],
+            data() {
+
+                return {
+                    dialog: false,
+                    snackbar: false,
+                    saving_changes: false,
+                    test: "asdasdasdasdasdasd",
+                    info: [],
+                    descriptionLimit: 60,
+                    entries: [],
+                    isLoading: false,
+                    model: null,
+                    search: null,
+                    snackbar_text: ""
+                }
+            },
+            mounted() {
+                axios
+                    .get('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}')
+                    .then(response => (this.info = response.data));
+            },
+            methods: {
+                del_item(event) {
+                    this.info.splice(event, 1)
                 },
-                props: ['likes'],
-                data() {
+                async save_item() {
+                    this.saving_changes = true
+                    const csrftoken = Cookies.get('csrftoken')
+                    await axios
+                        .post('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}',
+                            {data: this.info},
+                            {
+                                headers: {
+                                    'X-CSRFToken': csrftoken,
+                                }
+                            },
+                        )
+                        .then(response => (
+                            this.saving_changes = false,
+                            this.snackbar_text = "Изменения сохранены"
 
-                    return {
-                        test: "asdasdasdasdasdasd",
-                        info: [],
-                        descriptionLimit: 60,
-                          entries: [],
-                          isLoading: false,
-                          model: null,
-                          search: null,
-                    }
+                        ));
                 },
-                mounted() {
-                    axios
-                        .get('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}')
-                        .then(response => (this.info = response.data));
+                add_sub (){
+                    this.info.push({group_info: 13, lesson: {id: this.model.id, name: this.model.name}})
+                    this.dialog = false
+                    this.snackbar_text = "Предмет \"" + this.model.name + "\" Добавлен"
+                    this.model = null
+                }
+            },
+            computed: {
+                fields() {
+                    if (!this.model) return []
+                    return Object.keys(this.model).map(key => {
+                        return {
+                            key,
+                            value: this.model[key] || 'n/a',
+                        }
+                    })
                 },
-                methods: {
-                    del_item(event) {
-                        this.info.splice(event, 1)
-                    },
-                     async save_item(){
-                         const csrftoken = Cookies.get('csrftoken')
-                         await axios
-                            .post('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}',
-                                {data: this.info},
-                                {
-                                    headers: {
-                                        'X-CSRFToken': csrftoken,
-                                    }
-                                },
-                            )
-                            .then(response => (this.info = response.data));
-                    }
+                items() {
+                    return this.entries.map(entry => {
+                        const name = entry.name.length > this.descriptionLimit
+                            ? entry.name.slice(0, this.descriptionLimit) + '...'
+                            : entry.name
+
+                        return Object.assign({}, entry, {name})
+                    })
                 },
-                computed: {
-                    fields() {
-                        if (!this.model) return []
-                        return Object.keys(this.model).map(key => {
-                            return {
-                                key,
-                                value: this.model[key] || 'n/a',
-                            }
+            },
+
+            watch: {
+                snackbar_text(){
+                    this.snackbar = true
+                },
+                search(val) {
+                    // Items have already been loaded
+                    if (this.items.length > 0) return
+
+                    // Items have already been requested
+                    if (this.isLoading) return
+
+                    this.isLoading = true
+
+                    // Lazily load input items
+                    fetch('http://127.0.0.1:5000/api/tt/lessons')
+                        .then(res => res.json())
+                        .then(res => {
+                            const {count, entries} = res
+                            this.count = count
+                            this.entries = entries
+                            console.log(res)
                         })
-                    },
-                    items() {
-                        return this.entries.map(entry => {
-                            const name = entry.name.length > this.descriptionLimit
-                                ? entry.name.slice(0, this.descriptionLimit) + '...'
-                                : entry.name
-
-                            return Object.assign({}, entry, {name})
+                        .catch(err => {
+                            console.log(err)
                         })
-                    },
+                        .finally(() => (this.isLoading = false))
                 },
-
-                watch: {
-                    model() {
-                        console.log(this.model)
-                      this.info.push({group_info: 13, lesson: {id: this.model.id, name: this.model.name }})
-                        console.log(this.info)
-                    },
-                    search(val) {
-                        // Items have already been loaded
-                        if (this.items.length > 0) return
-
-                        // Items have already been requested
-                        if (this.isLoading) return
-
-                        this.isLoading = true
-
-                        // Lazily load input items
-                        fetch('http://127.0.0.1:5000/api/tt/lessons')
-                            .then(res => res.json())
-                            .then(res => {
-                                const {count, entries} = res
-                                this.count = count
-                                this.entries = entries
-                                console.log(res)
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
-                            .finally(() => (this.isLoading = false))
-                    },
-                },
-            })
-        </script>
-        {#    <script>#}
-        {#        $("#close_item").click(function (event) {#}
-        {#            console.log(this.parentElement);#}
-        {#            this.parentElement.remove();#}
-        {#        });#}
-        {#    </script>#}
-    {% endblock %}
+            },
+        })
+    </script>
+    {#    <script>#}
+    {#        $("#close_item").click(function (event) {#}
+    {#            console.log(this.parentElement);#}
+    {#            this.parentElement.remove();#}
+    {#        });#}
+    {#    </script>#}
+{% endblock %}

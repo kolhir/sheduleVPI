@@ -17,9 +17,9 @@ from . import models
 import json
 from ast import literal_eval
 # Create your views here.
-# <QueryDict: {'csrfmiddlewaretoken': ['LG85ijmGsi7TbtEwcNydvh5B7qPsiRYocistWJVffO0vk1Xe93crXhQippVCafAD'], 
-# 'name-faculty': ['1'], 
-# 'name-kurs': ['3'], 
+# <QueryDict: {'csrfmiddlewaretoken': ['LG85ijmGsi7TbtEwcNydvh5B7qPsiRYocistWJVffO0vk1Xe93crXhQippVCafAD'],
+# 'name-faculty': ['1'],
+# 'name-kurs': ['3'],
 # 'name-group': ['5']}>
 
 
@@ -65,7 +65,7 @@ def add_new_schedules_post(request):
                              request.POST["name-semester"],
                              0,
                              request.user)
-    return redirect("/schedule_list/")
+    return redirect(f"/edit_sub_for_group/{group.id}")
 
 @login_required
 @require_http_methods(["GET"])
