@@ -131,6 +131,7 @@
             data() {
 
                 return {
+                    api_url: 'http://robinvolpi.ru:5001/'
                     dialog: false,
                     snackbar: false,
                     saving_changes: false,
@@ -146,7 +147,7 @@
             },
             mounted() {
                 axios
-                    .get('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}')
+                    .get(this.api_url + 'api/tt/lessons_for_group/{{ group.id }}')
                     .then(response => (this.info = response.data));
             },
             methods: {
@@ -157,7 +158,7 @@
                     this.saving_changes = true
                     const csrftoken = Cookies.get('csrftoken')
                     await axios
-                        .post('http://127.0.0.1:5000/api/tt/lessons_for_group/{{ group.id }}',
+                        .post(this.api_url + 'api/tt/lessons_for_group/{{ group.id }}',
                             {data: this.info},
                             {
                                 headers: {
@@ -213,7 +214,7 @@
                     this.isLoading = true
 
                     // Lazily load input items
-                    fetch('http://127.0.0.1:5000/api/tt/lessons')
+                    fetch(this.api_url + 'api/tt/lessons')
                         .then(res => res.json())
                         .then(res => {
                             const {count, entries} = res
