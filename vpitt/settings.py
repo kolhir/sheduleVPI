@@ -12,13 +12,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-#import sentry_sdk
-#from sentry_sdk.integrations.django import DjangoIntegration
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-#sentry_sdk.init(
-    # dsn="https://f40a317131d64178a859114de2d231d8@sentry.io/1723637",
-    # integrations=[DjangoIntegration()]
-# )
+sentry_sdk.init(
+    dsn="https://f40a317131d64178a859114de2d231d8@sentry.io/1723637",
+    integrations=[DjangoIntegration()]
+)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -32,8 +32,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_iw7a9ot5!ec=zigd@9#9q$_b919lk(3tnhyl_-da!mihr6c7('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.46','127.0.0.1', 'robinvolpi.ru']
 
