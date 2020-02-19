@@ -67,6 +67,14 @@ def add_new_schedules_post(request):
                              request.user)
     return redirect(f"/edit_sub_for_group/{group.id}")
 
+@require_http_methods(["GET"])
+def get_done_shedule_list(request):
+    groups = models.Group.objects.filter(group_info__semester=2, added_to_bot=True)
+    groups_info = models.Group_info.objects.filter(semester=2)
+    done_groups = [item.group_info for item in groups]
+    c = {"groups": groups, "groups_info": groups_info, "done_groups": done_groups}
+    return render(request, "timetable/shedule_done_list.html", c)
+
 @login_required
 @require_http_methods(["GET"])
 def edit_sub_for_group(request, group_id):
