@@ -104,9 +104,11 @@
                         >
                             [[ snackbar_text ]]
                         </v-snackbar>
+
                         <v-app>
 
                 </div>
+
 
 
             </div>
@@ -132,6 +134,7 @@
 
                 return {
                     api_url: 'http://robinvolpi.ru:5001/',
+                    // api_url: 'http://127.0.0.1:5000/',
                     dialog: false,
                     snackbar: false,
                     saving_changes: false,
@@ -230,10 +233,4 @@
             },
         })
     </script>
-    {#    <script>#}
-    {#        $("#close_item").click(function (event) {#}
-    {#            console.log(this.parentElement);#}
-    {#            this.parentElement.remove();#}
-    {#        });#}
-    {#    </script>#}
 {% endblock %}
