@@ -4,7 +4,7 @@ from .models import Faculty, Cathedra, Korpus, \
     Group_info, Group, DaysWeek, \
     LessonTime, Room, Lessons, \
     TypeLesson, Lessons_for_group, \
-    Teacher, Time_table
+    Teacher, Time_table, TeacherCathedra
 
 
 # Register your models here.
@@ -43,7 +43,7 @@ class Group_infoAdmin(admin.ModelAdmin):
     def group_name(self, obj):
         return obj.abbr + " - " + str(obj.course) + str(obj.code)
 
-@admin.register(Lessons)      
+@admin.register(Lessons)
 class LessonsAdmin(admin.ModelAdmin):
     list_display = ['name', 'cathedra']
     search_fields = ['name']
@@ -61,6 +61,20 @@ class GroupAdmin(admin.ModelAdmin):
                str(obj.group_info.code) + \
                " / " + str(obj.group_info.semester)
 
+
+@admin.register(TeacherCathedra)
+class TeacherCathedraAdmin(admin.ModelAdmin):
+    list_display = ['_teacher', '_cathedra', '_cathedra_name']
+    search_fields = ['teacher__last_name', 'cathedra__abbr', 'cathedra__name']
+
+    def _teacher(self, obj):
+        return f"{obj.teacher.last_name} {obj.teacher.first_name[0]}. {obj.teacher.patronymic[0]}."
+
+    def _cathedra(self, obj):
+        return obj.cathedra.abbr
+
+    def _cathedra_name(self, obj):
+        return obj.cathedra.name
 
 @admin.register(Time_table)
 class Time_tableAdmin(admin.ModelAdmin):

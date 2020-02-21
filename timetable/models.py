@@ -37,7 +37,7 @@ class Group_info(models.Model):
     def __str__(self):
         return f'{self.abbr} - {self.course}{self.code} / {self.semester}'
 
-    
+
 
 class Group(models.Model):
     group_info = models.ForeignKey("Group_info", on_delete=models.SET_NULL, null=True)
@@ -101,6 +101,14 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.last_name} {self.first_name} {self.patronymic}'
+
+
+class TeacherCathedra(models.Model):
+    teacher = models.ForeignKey("Teacher", on_delete=models.SET_NULL, null=True)
+    cathedra = models.ForeignKey("Cathedra", on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'{self.teacher.last_name} - {self.cathedra.abbr}'
 
 class Time_table(models.Model):
     group = models.ForeignKey("Group", on_delete=models.SET_NULL, null=True)

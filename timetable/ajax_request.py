@@ -12,11 +12,11 @@ from ast import literal_eval
 def get_teacher(request):
     name = request.POST["name"]
     lesson = get_lesson_by_name(name)
-    
+
     teachers = get_teacher_by_caf(lesson.cathedra)
     teachers_dict = {0:"Выберете преподавателя"}
     for item in enumerate(teachers):
-        s = (item[1].last_name) + " " + item[1].first_name[:1] + ". " + item[1].patronymic[:1] + "."
+        s = (item[1].teacher.last_name) + " " + item[1].teacher.first_name[:1] + ". " + item[1].teacher.patronymic[:1] + "."
         teachers_dict[item[0]+1] = s
     teachers_dict = json.dumps(teachers_dict, ensure_ascii=False)
     return HttpResponse(teachers_dict)

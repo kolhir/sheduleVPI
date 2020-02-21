@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 # from accounts.models import User_profile
-from timetable.models import Faculty, Group_info, TypeLesson ,Group, Teacher, Lessons, Room, Korpus, Lessons_for_group, Time_table, DaysWeek, LessonTime
+from timetable.models import Faculty, Group_info, TypeLesson ,Group, Teacher,\
+	Lessons, Room, Korpus, Lessons_for_group,\
+	Time_table, DaysWeek, LessonTime, TeacherCathedra
 from accounts.models import BotUser
 from ast import literal_eval
 import copy
@@ -155,7 +157,7 @@ def get_rooms_by_korpus(korpus):
 
 def get_teacher_by_caf(cathedra):
 	try:
-		q = Teacher.objects.filter(cathedra = cathedra)
+		q = TeacherCathedra.objects.filter(cathedra=cathedra)
 		return(q)
 	except ObjectDoesNotExist:
 		return(False)

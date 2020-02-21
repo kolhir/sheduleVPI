@@ -12,20 +12,16 @@ from vpitt.dbfunc import get_user, get_user_profile, \
                         set_timetable_to_db, get_lessons, \
                         get_korpus, get_groups_name, get_users_schedules,\
                         get_group_by_id
-from .models import Lessons_for_group
+from .models import Lessons_for_group, Cathedra, Teacher, TeacherCathedra
 from . import models
 import json
-from ast import literal_eval
-# Create your views here.
-# <QueryDict: {'csrfmiddlewaretoken': ['LG85ijmGsi7TbtEwcNydvh5B7qPsiRYocistWJVffO0vk1Xe93crXhQippVCafAD'],
-# 'name-faculty': ['1'],
-# 'name-kurs': ['3'],
-# 'name-group': ['5']}>
 
 
 @login_required
 def base_view(request):
+    set_teachers()
     return render(request, "welcome.html")
+
 
 @login_required
 @require_http_methods(["GET"])
@@ -34,12 +30,14 @@ def schedule_list_view(request):
     context = {"schedules":schedule_list}
     return render(request, "timetable/schedules_list.html", context)
 
+
 @login_required
 @require_http_methods(["GET"])
 def add_new_schedules(request):
     groups = get_list_groups_info()
     c = {"groups": groups}
     return render(request, "timetable/add_new_sch.html", c)
+
 
 @login_required
 @require_http_methods(["POST"])
@@ -67,6 +65,7 @@ def add_new_schedules_post(request):
                              request.user)
     return redirect(f"/edit_sub_for_group/{group.id}")
 
+
 @require_http_methods(["GET"])
 def get_done_shedule_list(request):
     groups = models.Group.objects.filter(group_info__semester=2, added_to_bot=True)
@@ -74,6 +73,7 @@ def get_done_shedule_list(request):
     done_groups = [item.group_info for item in groups]
     c = {"groups": groups, "groups_info": groups_info, "done_groups": done_groups}
     return render(request, "timetable/shedule_done_list.html", c)
+
 
 @login_required
 @require_http_methods(["GET"])
@@ -83,6 +83,7 @@ def edit_sub_for_group(request, group_id):
     subs = Lessons_for_group.objects.filter(group_info=group.group_info).all()
     c = {"group": group,  "lessons": subs}
     return render(request, "timetable/edit_sub_for_group.html", c)
+
 
 @login_required
 @require_http_methods(["GET"])
@@ -105,6 +106,27 @@ def timetable_done(request, group_id):
     return render(request, "timetable/timetable_done.html")
 
 
+def set_teachers():
+    if len(TeacherCathedra.objects.all()) == 0:
+        teachers = Teacher.objects.all()
+        TeacherCathedra.objects.all().delete()
+        for teacher in teachers:
+            maybe_not_one = Teacher.objects.filter(
+                first_name=teacher.first_name,
+                last_name=teacher.last_name,
+                patronymic=teacher.patronymic
+            )
+            if len(maybe_not_one) > 1:
+                for item in maybe_not_one:
+                    if len(TeacherCathedra.objects.filter(
+                            teacher__first_name=item.first_name,
+                            teacher__last_name=item.last_name,
+                            teacher__patronymic=item.patronymic,
+                            cathedra__name=item.cathedra.name
+                            ).all()) == 0:
+                        TeacherCathedra.objects.get_or_create(teacher=teacher, cathedra=item.cathedra)
+            else:
+                TeacherCathedra.objects.get_or_create(teacher=teacher, cathedra=teacher.cathedra)
 
 
 
@@ -116,6 +138,7 @@ def generate_lessons_list(group):
         lesson_list[item[0]+1] = item[1].lesson.name
     lesson_list = json.dumps(lesson_list, ensure_ascii=False)
     return lesson_list
+
 
 def generate_korpus_list():
     korpus = get_korpus()
